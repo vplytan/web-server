@@ -1,0 +1,194 @@
+/*ONE*/
+/*Робота з фоном*/
+body {
+background-color:#ffffff; /*Фон сторінки*/
+background-repeat:no-repeat;
+background-position:500px 300px;
+margin-right:150px; /*Відступ на 150 пікселів від правого боку*/ 
+background-attachment:fixed;
+}
+
+/*TWO*/
+/*Робота з текстом*/
+/***********************************************/
+.text {
+text-align:left; /*Вирівнювання по лівому краю*/
+
+text-indent:30px; /*Відступ в пікселях(абзац)*/
+
+/*text-decoration:overline; /*Підкреслення тексту зверху*/
+/*text-decoration:underline; /*Підкреслення тексту знизу*/
+text-decoration:blink;
+/*text-decoration:line-through; /*Закреслення тексту*/
+
+/*text-transform:capitalize; /*Всі слова в параграфі з великої букви*/
+/*text-transform:lowercase; /*Всі слова в параграфі з маленької букви*/
+text-transform:uppercase; /*Всі букви в параграфі великі*/
+
+line-height:300%; /*Відстань між рядками*/
+
+letter-spacing:2px; /*Відстань між буквами*/
+
+/*white-space:nowrap; /*Запис в один рядок параграфа*/
+
+word-spacing:25px; /*Відстань між словами*/
+}
+
+/*THREE*/
+/*Написання таблиців стилів, типи правил для визначеного тегу*/
+
+/*Перший тип правил*/
+/*Правило для зміни визначених тегів*/
+p {
+/*font-size:14px;
+font-family:Verdana, Tahoma;*/
+
+color:#000000;
+font:normal 14px Verdana; /*Скорочений запис*/
+}
+
+/*Прописування стилів одночасно двом тегам p і h2*/
+/*p, h2 {
+color:#424242;
+font-size:14px;
+font-family:Verdana, Tahoma;
+font-weight:normal; /*Нормальний розмір шрифту*/
+/* } */
+
+/*Другий тип правил*/
+/*Правило для конкретного тегу*/
+p.new {               
+font-weight:bold; /*Жирний розмір шрифту*/
+color:orange;
+font-style:italic; /*Курсив*/
+font-variant:small-caps;
+}
+
+/*Третій тип правил*/
+/*Правило для будь якого тегу*/
+.rule {
+color:#00cc00;
+}
+
+/*Вкладені правила які виконуються в межах абзацу*/
+p strong {
+color:#0000cc;
+}
+
+/*FOUR*/
+/*Правила стану*/
+a:link {color:#000000; text-decoration:underline;} /*посилання по якому не клікали*/
+a:visited {color:#cc0000; text-decoration:none;} /*посилання вже клікнуте*/
+a:hover {color:orange; text-decoration:underline;} /*стан при наведенні мишки*/
+a:active {color:#00cc00; text-decoration:overline;} /*стан при натисненні на посилання*/
+
+/*FIVE*/
+ul.list {
+/*border:1px solid gray;*/
+list-style-type:decimal;
+list-style-position:outside;
+list-style-image:url(mini_ben.bmp);
+
+/*list-style-type:upper-roman;
+list-style-type:lower-roman;
+list-style-type:upper-alpha;
+list-style-type:lower-alpha;
+list-style-type:square;
+list-style-type:none;*/
+}
+
+/*SIX*/
+/*Рамки*/
+.ramka {
+/*border-width:1px; /*Ширина рамки*/
+/*border-style:solid; /*Стиль рамки*/
+/*border-color:gray; /*Колір рамки*/
+
+/*border:1px dotted green; /*Скорочений запис*/
+border-bottom:3px solid #000000; /*Нижня сторона рамки*/
+border-left:5px solid #cccccc;  /*Ліва сторона рамки*/
+border-right:5px solid #cccccc;  /*Права сторона рамки*/
+border-top:3px solid #000000;  /*Верхня сторона рамки*/
+/*width:500px; /*Ширина абзацу*/
+
+/*Відступи*/
+/*margin:40px; /*Відступи по 40 пікселів зі всіх сторін*/
+margin-left:40px; /*Лівий відступ*/
+margin-top:60px;
+margin-bottom:25px;
+margin-right:30px;
+
+padding:30px; /*Внутрішній  відступ*/
+width:300px;
+float:left; /*Цей абзац потрідно обкружити текстом кругом*/
+}
+
+.ramka1 {
+/*border:1px dotted green; /*Скорочений запис*/
+border-bottom:3px solid #000000; /*Нижня сторона рамки*/
+border-left:5px solid #cccccc;  /*Ліва сторона рамки*/
+border-right:5px solid #cccccc;  /*Права сторона рамки*/
+border-top:3px solid #000000;  /*Верхня сторона рамки*/
+
+width:300px;
+float:left; /*Цей абзац потрідно обкружити текстом кругом*/
+}
+
+/*SEVEN*/
+#table {
+border-collapse:separate;
+border-spacing:10px 50px;
+caption-side:bottom;
+}
+
+/*Стиль, який закреслює текст*/
+.cherta {
+text-decoration:line-through;
+}
+
+.tr {
+text-transform:capitalize; /*Кожна перша  буква кожного слова стає великою*/
+/*text-transform:uppercase;*/ /*Всі букви стають великими*/
+/*text-transform:lowercase;*/ /*Всі букви стають маленькими*/
+word-spacing:10px; /*Відстань між словами*/
+letter-spacing:4px; /*Відстань між буквами*/
+line-height:30px; /*Відстань між стрічками*/
+}
+/***********************************************/
+
+/* id класи*/
+#free {
+position:absolute;
+top:330px;
+right:210px;
+width:74px;
+height:65px;
+background-image:url(str.gif); 
+}
+
+/*Стиль для конкретного виділення фраз*/
+.ch {
+background-color:yellow;
+color:#000000;
+font-weight:bold;
+
+}
+
+
+h3 em{color:green} /*контекстні селектори*/
+
+b + var{color:#ccf0ff} /*сусідні селектори*/
+
+p>strong{text-decoration:blink;} /*дочірній селектор*/
+
+* { font-family: Aral, Verdana, sans-serif} /*універсальний селектор*/
+
+
+
+
+
+
+
+
+
+

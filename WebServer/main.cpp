@@ -5,11 +5,24 @@
  *      Author: vplytan
  */
 
-#include "include/test.h"
+#include "src/communicator/Communicator.hpp"
+#include "src/configurator/Configurator.hpp"
 
+#include <iostream>
+#include <fstream>
+#include <time.h>
+#include <errno.h>
 
-int main(){
-	main_test();
+#include "src/handlers/HandlerBuild.hpp"
+#include "src/builders/Request.hpp"
+
+using namespace std;
+
+int main() {
+
+	Communicator* communicator = Communicator::getInstance();
+	communicator->startListening();
+
 
 	return 0;
 }

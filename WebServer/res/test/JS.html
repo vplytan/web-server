@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//w3c//DTD HTML 4.01 Transitionat//EN">
+<html>  
+
+<head> 
+
+
+<title>JS</title> <!--/ <title>Заголовок сторінки</title>-->
+<meta http-equiv="Content-type" content="text/html; charset=windows-1251">
+<meta name="Keywords" content="css"> <!--/ Ключові слова-->
+<meta name="Description" content="JS">
+<link href="style.css" type="text/css" rel="stylesheet">
+</head>
+
+<body>
+<h1 align="center"><em>Ви бажаєте вчити JAVA?</em></h1>
+
+<SPAN id="button2" style="position:relative;z-index:10" onmouseOver="moveIt()" onfocus="moveIt();this.blur()">
+<button style="background-color:lightgreen;height:30px; width:150px;" onmouseDown="moveIt()" onmouseover="moveIt()" onfocus="moveIt();this.blur()">ТАК</button>
+</SPAN>
+<SPAN id="button1" style="position:relative;z-index:10" onmouseOver="moveIt()" onfocus="moveIt();this.blur()">
+<button style="background-color:red;height:30px; width:150px;" onmouseDown="moveIt()" onmouseover="moveIt()" onfocus="moveIt();this.blur()">НІ</button>
+</SPAN>
+<center>
+
+<script>
+function getObj(objID)
+{
+    if (document.getElementById) {return document.getElementById(objID);}
+    else if (document.all) {return document.all[objID];}
+    else if (document.layers) {return document.layers[objID];}
+}
+
+var ie4=document.all
+var ns6=document.getElementById&&!document.all
+cobj=getObj("button1");
+
+function moveIt(){
+y=Math.floor(Math.random()*301);
+x=Math.floor(Math.random()*401);
+if (ie4){
+    cobj.style.top  = y;
+    cobj.style.left = x;
+    }
+else if (ns6){
+    cobj.style.top  = y+"px";
+    cobj.style.left = x+"px";
+    }
+}
+</script>
+
+ 
+
+
+
+</body>
+</html>
+
