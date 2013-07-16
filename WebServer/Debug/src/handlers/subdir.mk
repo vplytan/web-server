@@ -4,15 +4,27 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../src/handlers/HandlerBuild.cpp \
+../src/handlers/BinaryHandler.cpp \
+../src/handlers/DirectoryHandler.cpp \
+../src/handlers/ErrorHandler.cpp \
+../src/handlers/Handler.cpp \
+../src/handlers/IndexHandler.cpp \
 ../src/handlers/TextHandler.cpp 
 
 OBJS += \
-./src/handlers/HandlerBuild.o \
+./src/handlers/BinaryHandler.o \
+./src/handlers/DirectoryHandler.o \
+./src/handlers/ErrorHandler.o \
+./src/handlers/Handler.o \
+./src/handlers/IndexHandler.o \
 ./src/handlers/TextHandler.o 
 
 CPP_DEPS += \
-./src/handlers/HandlerBuild.d \
+./src/handlers/BinaryHandler.d \
+./src/handlers/DirectoryHandler.d \
+./src/handlers/ErrorHandler.d \
+./src/handlers/Handler.d \
+./src/handlers/IndexHandler.d \
 ./src/handlers/TextHandler.d 
 
 

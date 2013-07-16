@@ -7,6 +7,7 @@
 
 #include "Communicator.hpp"
 #include "../configurator/Configurator.hpp"
+#include "../builders/RequestBuilder.hpp"
 
 #include <iostream>
 #include <stdarg.h>
@@ -56,10 +57,11 @@ std::string getSimplePage() {
 	}
 	return page;
 }
-
-void DirListing(FILE* FP, char* request) {
-	fprintf(FP, getSimplePage().c_str());
-}
+/*
+ void DirListing(FILE* FP, char* response) {
+ fprintf(FP, response);
+ }
+ */
 
 Communicator* Communicator::getInstance() {
 	if (!_instance) {
@@ -67,8 +69,22 @@ Communicator* Communicator::getInstance() {
 	}
 	return _instance;
 }
+void* handle_request(void *client) {
+	RequestBuilder *rb = new RequestBuilder((int) client);
+	Request request = rb->build();
 
-void* thread_t(void* unused) {
+	char *response;
+
+	response = rb->proceed();
+
+	FILE* ClientFP = fdopen((int) client, "w");
+	fprintf(ClientFP, response);
+	fclose(ClientFP);
+	close((int) client);
+	return 0;
+}
+
+void* wait_for_client(void* unused) {
 	string host;
 	host.append(_configurator->getParameter("ip"));
 	host.append(":");
@@ -87,28 +103,15 @@ void* thread_t(void* unused) {
 	if (listen(sd, 20) < 0)
 		perror("Listen");
 	while (1) {
-		int len;
 		int client =
 				accept(sd, (struct sockaddr*) &addr, (socklen_t*) &addrlen);
 		printf("Connected: %s:%d\n", inet_ntoa(addr.sin_addr), ntohs(
 				addr.sin_port));
+		pthread_t client_thread_id;
+		pthread_create(&client_thread_id, NULL, &handle_request,
+				(void *) client);
+		pthread_join(client_thread_id, NULL);
 
-		if ((len = recv(client, buffer, MAXBUF, 0)) > 0) {
-			cout << "--------------start buffer-----------------" << endl;
-			cout << buffer << endl;
-			cout << "--------------end buffer-----------------" << endl;
-			FILE* ClientFP = fdopen(client, "w");
-			if (ClientFP == NULL)
-				perror("fpopen");
-			else {
-				char Req[MAXPATH];
-				sscanf(buffer, "GET %s HTTP", Req);
-				printf("Request: \"%s\"\n", Req);
-				DirListing(ClientFP, Req);
-				fclose(ClientFP);
-			}
-		}
-		close(client);
 	}
 	return NULL;
 }
@@ -117,8 +120,9 @@ void Communicator::startListening() {
 	cout << "Communicator::startListening()" << endl;
 	cout << "\t port = " << _port << endl;
 	_isWorking = true;
+
 	pthread_t thread_id;
-	int i = pthread_create(&thread_id, NULL, &thread_t, NULL);
+	pthread_create(&thread_id, NULL, &wait_for_client, NULL);
 	pthread_join(thread_id, NULL);
 }
 

@@ -6,7 +6,6 @@
  */
 
 #include "src/communicator/Communicator.hpp"
-#include "src/configurator/Configurator.hpp"
 
 #include <iostream>
 #include <fstream>
