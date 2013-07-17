@@ -10,7 +10,7 @@
 
 class ErrorHandler: public Handler {
 public:
-	char* doHandle(const Request &aRequest);
+	Response* do_handle(Request* aRequest);
 private:
 	std::string _errorPage;
 };

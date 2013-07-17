@@ -9,12 +9,13 @@
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 
 #include "BinaryHandler.hpp"
 
 using namespace std;
 
-long BinaryHandler::getFileSize(FILE *file) {
+long BinaryHandler::get_file_size(FILE *file) {
 	long lCurPos, lEndPos;
 	lCurPos = ftell(file);
 	fseek(file, 0, 2);
@@ -23,57 +24,66 @@ long BinaryHandler::getFileSize(FILE *file) {
 	return lEndPos;
 }
 
-char* BinaryHandler::doHandle(const Request &aRequest) {
-	std::string urlLine = aRequest.getAbsolutePath();
-	cout << "urlLine is ---------- : " << urlLine << endl;
-	if (Handler::getFileFormat(urlLine) == ".png" || Handler::getFileFormat(
-			urlLine) == ".jpg") {
-		cout << "binaryHandler handle ";
+Response* BinaryHandler::do_handle(Request* aRequest) {
+	std::string urlLine = aRequest->get_absolute_path();
+	if (get_file_format(urlLine) == ".png" || get_file_format(urlLine)
+			== ".jpg" || get_file_format(urlLine) == ".ico") {
+		cout << "binaryHandler handle ressssss" << endl;
 
-		//		const char *filePath = "C:\\Users\\UrName\\Desktop\\testFile.bin";
-//		const char *filePath = (getRoot() + aRequest.getAbsolutePath()).c_str();
-		const char *filePath = "../WebServer/res/we/vitaP.jpg";
+		//	const char *filePath = (get_root() + urlLine).c_str();
+		const char *filePath = "../WebServer/res/favicon.ico";
 
 		cout << "filePath :" << filePath << endl;
 		char *fileBuf; // Pointer to our buffered data
-		FILE *file = fopen(filePath, "r"); // File pointer
-
-		// Open the file in binary mode using the "rb" format string
-		// This also checks if the file exists and/or can be opened for reading correctly
+		FILE *file = fopen(filePath, "rb"); // File pointer
 
 		if (file == NULL)
 			cout << "Could not open specified file" << endl;
 		else
 			cout << "File opened successfully" << endl;
 
-		// Get the size of the file in bytes
-		long fileSize = getFileSize(file);
+		long fileSize = get_file_size(file);
 		cout << "File size : " << fileSize << endl;
 
-		// Allocate space in the buffer for the whole file
 		fileBuf = new char[fileSize];
 		cout << "File buf " << endl;
 
-		// Read the file in to the buffer
 		fread(fileBuf, fileSize, 1, file);
+		//fread(fileBuf, sizeof(char), fileSize, file);
 		cout << "Fread " << endl;
 
-		/*
-		 // Now that we have the entire file buffered, we can take a look at some binary infomation
-		 // Lets take a look in hexadecimal
-		 for (int i = 0; i < 100; i++)
-		 printf("%X ", fileBuf[i]);
-		 */
-//		cin.get();
 		//	delete[] fileBuf;
 		fclose(file); // Almost forgot this
 		cout << "fclose " << endl;
 
+		std::string statusLine = build_status_line("200 OK");
+		char *statusLineC = new char[statusLine.length() + 1];
+		strcpy(statusLineC, statusLine.c_str());
+		std::string contentType = build_content_type(
+				aRequest->get_content_type(), fileSize);
+		char *contentTypeC = new char[contentType.length() + 1];
+		strcpy(contentTypeC, contentType.c_str());
 
-		return fileBuf;
+		int responseSize = statusLine.length() + contentType.length()
+				+ fileSize;
+		char* response = new char[responseSize];
+
+		memcpy(response, statusLineC, statusLine.length());
+		memcpy(response + statusLine.length(), contentTypeC,
+				contentType.length());
+		memcpy(response + statusLine.length() + contentType.length(), fileBuf,
+				fileSize);
+
+		cout << "\n========== response ==============\n";
+		for (int i = 0; i < responseSize; i++) {
+			cout << response[i];
+		}
+		cout << "\n========== response ==============\n";
+
+		return new Response(response);
 	} else {
 		cout << "binaryHandler pass " << "  ";
-		return Handler::doHandle(aRequest);
+		return Handler::do_handle(aRequest);
 	}
 }
 

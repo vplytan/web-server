@@ -8,6 +8,6 @@
 #define IOBSERVER_HPP
 class IOnConfigurationChangeListener {
 public:
-	virtual void portChanged(int newPort) = 0;
+	virtual void port_changed(int newPort) = 0;
 };
 #endif

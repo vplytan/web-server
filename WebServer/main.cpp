@@ -19,8 +19,8 @@ using namespace std;
 
 int main() {
 
-	Communicator* communicator = Communicator::getInstance();
-	communicator->startListening();
+	Communicator* communicator = Communicator::get_instance();
+	communicator->start_listening();
 
 
 	return 0;

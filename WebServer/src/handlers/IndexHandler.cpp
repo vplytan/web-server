@@ -14,11 +14,11 @@
 
 using namespace std;
 
-char* IndexHandler::doHandle(const Request &aRequest) {
-	std::string urlLine = aRequest.getAbsolutePath();
+Response* IndexHandler::do_handle(Request* aRequest) {
+	std::string urlLine = aRequest->get_absolute_path();
 	cout << "urlLine is ----------" << urlLine << endl;
 	if (urlLine == "/") {
-		std::string root = getRoot();
+		std::string root = get_root();
 		std::string page;
 		std::string file = root + "index.html";
 		ifstream pageFile(file.c_str());
@@ -33,11 +33,19 @@ char* IndexHandler::doHandle(const Request &aRequest) {
 			cout << "Unable to open file";
 		}
 		cout << "indexHandler handle " << "  ";
+
+		std::string indexPage;
+
+		indexPage.append(build_status_line("200 OK"));
+		indexPage.append(build_content_type(aRequest->get_content_type(), page.length()));
+		indexPage.append(page);
+
+
 		char *cstr = new char[page.length() + 1];
 		strcpy(cstr, page.c_str());
 		cout << "textHandler handle " << "  ";
-		return cstr;
+		return new Response(cstr);
 	}
 	cout << "indexHandler pass " << "  ";
-	return Handler::doHandle(aRequest);
+	return Handler::do_handle(aRequest);
 }

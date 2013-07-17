@@ -14,19 +14,28 @@
 
 using namespace std;
 
-char* TextHandler::doHandle(const Request &aRequest) {
-	std::string urlLine = aRequest.getAbsolutePath();
+Response* TextHandler::do_handle(Request* aRequest) {
+	std::string urlLine = aRequest->get_absolute_path();
 	cout << "urlLine is : " << urlLine << endl;
-	if (getFileFormat(urlLine) == ".html" || getFileFormat(urlLine) == ".htm"
-			|| getFileFormat(urlLine) == ".css") {
-		std::string outputFile = getPage(urlLine);
-		if (outputFile != "") {
-			char *cstr = new char[outputFile.length() + 1];
-			strcpy(cstr, outputFile.c_str());
+	if (get_file_format(urlLine) == ".html" || get_file_format(urlLine)
+			== ".htm" || get_file_format(urlLine) == ".css") {
+		std::string page = get_page(urlLine);
+		if (page != "") {
+
+			std::string textPage;
+
+			textPage.append(build_status_line("200 OK"));
+			textPage.append(build_content_type(aRequest->get_content_type(),
+					page.length()));
+			textPage.append(page);
+
+			char *cstr = new char[page.length() + 1];
+			strcpy(cstr, page.c_str());
 			cout << "textHandler handle " << "  ";
-			return cstr;
+
+			return new Response(cstr);
 		}
 	}
 	cout << "textHandler pass " << "  ";
-	return Handler::doHandle(aRequest);
+	return Handler::do_handle(aRequest);
 }

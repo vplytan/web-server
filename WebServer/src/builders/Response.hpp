@@ -4,25 +4,21 @@
  *  Created on: Jul 10, 2013
  *      Author: vplytan
  */
+#ifndef RESPONSE_HPP
+#define RESPONSE_HPP
 
 class Response {
-private:
-	byte *_response[];
 public:
-	byte getResponse() const;
-	void setResponse(byte _response[]);
-	int getHeadLength() const;
+	Response(char* response) {
+		_response = response;
+	}
+	char* get_response() {
+		return _response;
+	}
+	int get_head_length() {
+		return sizeof(_response) / sizeof(*_response);
+	}
+private:
+	char* _response;
 };
-
-byte Response::getResponse() const {
-	return _response;
-}
-
-void Response::setResponse(byte _response[]) {
-	this->_response = _response;
-}
-
-int Response::getHeadLength() const {
-	return sizeof(_response) / sizeof(*_response);
-}
-
+#endif

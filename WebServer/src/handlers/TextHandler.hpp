@@ -3,7 +3,7 @@
 
 class TextHandler: public Handler {
 public:
-	char* doHandle(const Request &aRequest);
+	Response* do_handle(Request* aRequest);
 };
 
 

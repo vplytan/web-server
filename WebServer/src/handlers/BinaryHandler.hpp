@@ -10,7 +10,7 @@
 
 class BinaryHandler: public Handler {
 public:
-	char* doHandle(const Request &aRequest);
+	Response* do_handle(Request* aRequest);
 private:
-	long getFileSize(FILE *file);
+	long get_file_size(FILE *file);
 };

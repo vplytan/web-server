@@ -7,7 +7,7 @@
 
 #include "Communicator.hpp"
 #include "../configurator/Configurator.hpp"
-#include "../builders/RequestBuilder.hpp"
+#include "../builders/RequestManager.hpp"
 
 #include <iostream>
 #include <stdarg.h>
@@ -31,10 +31,7 @@
 #define	MY_PORT		9999
 #define MAXNAME	25
 #define MAXPATH	150
-#define PERROR(msg)	{ perror(msg); abort(); }
 #define MAXBUF	1024
-
-char buffer[MAXBUF];
 
 using namespace std;
 
@@ -42,40 +39,23 @@ Communicator* Communicator::_instance = NULL;
 Configurator* _configurator;
 char *Host = new char[20];
 
-std::string getSimplePage() {
-	std::string page;
-	ifstream pageFile("../WebServer/res/login_pg.html");
-	string line;
-	if (pageFile.is_open()) {
-		while (pageFile.good()) {
-			getline(pageFile, line);
-			page.append(line);
-		}
-		pageFile.close();
-	} else {
-		cout << "Unable to open file";
-	}
-	return page;
-}
-/*
- void DirListing(FILE* FP, char* response) {
- fprintf(FP, response);
- }
- */
-
-Communicator* Communicator::getInstance() {
+Communicator* Communicator::get_instance() {
 	if (!_instance) {
 		_instance = new Communicator();
 	}
 	return _instance;
 }
 void* handle_request(void *client) {
-	RequestBuilder *rb = new RequestBuilder((int) client);
-	Request request = rb->build();
+	RequestManager *requestManager = new RequestManager();
+	char *buffer = new char[MAXBUF];
 
-	char *response;
+	recv((int) client, buffer, MAXBUF, 0);
+	char *response = requestManager->process_request(buffer);
 
-	response = rb->proceed();
+	cout << endl;
+	cout << "response  ---------------------" << endl;
+	cout << response << endl;
+	cout << "response  ---------------------" << endl;
 
 	FILE* ClientFP = fdopen((int) client, "w");
 	fprintf(ClientFP, response);
@@ -86,9 +66,9 @@ void* handle_request(void *client) {
 
 void* wait_for_client(void* unused) {
 	string host;
-	host.append(_configurator->getParameter("ip"));
+	host.append(_configurator->get_parameter("ip"));
 	host.append(":");
-	host.append(_configurator->getParameter("port"));
+	host.append(_configurator->get_parameter("port"));
 	strcpy(Host, host.c_str());
 	struct sockaddr_in addr;
 	int sd, addrlen = sizeof(addr);
@@ -116,7 +96,7 @@ void* wait_for_client(void* unused) {
 	return NULL;
 }
 
-void Communicator::startListening() {
+void Communicator::start_listening() {
 	cout << "Communicator::startListening()" << endl;
 	cout << "\t port = " << _port << endl;
 	_isWorking = true;
@@ -126,7 +106,7 @@ void Communicator::startListening() {
 	pthread_join(thread_id, NULL);
 }
 
-void Communicator::stopListening() {
+void Communicator::stop_listening() {
 	cout << "Communicator::stopListening()" << endl;
 
 }
@@ -137,7 +117,7 @@ void Communicator::reboot() {
 
 }
 
-void Communicator::setPort(int portNumber) {
+void Communicator::set_port(int portNumber) {
 	cout << "Communicator::setPort(int portNumber) = " << portNumber << endl;
 	_port = portNumber;
 }
@@ -145,12 +125,12 @@ void Communicator::setPort(int portNumber) {
 Communicator::Communicator() {
 	cout << "Communicator::Communicator()" << endl;
 	_isWorking = false;
-	_configurator = Configurator::getInstance();
-	_configurator->setListener(this);
-	setPort(_configurator->getPort());
+	_configurator = Configurator::get_instance();
+	_configurator->set_listener(this);
+	set_port(_configurator->get_port());
 }
 
-void Communicator::portChanged(int newPort) {
-	setPort(newPort);
+void Communicator::port_changed(int newPort) {
+	set_port(newPort);
 	reboot();
 }

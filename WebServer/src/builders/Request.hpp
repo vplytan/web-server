@@ -10,6 +10,7 @@
 
 #include <map>
 #include <string>
+#include <iostream>
 
 using namespace std;
 
@@ -20,112 +21,62 @@ private:
 	std::string _absolutePath;
 	std::string _url;
 	std::string _contentType;
-	std::map<std::string, std::string> _queryString;
-	std::map<std::string, std::string> _cookies;
 	std::map<std::string, std::string> _headers;
 	bool _adminError;
 	bool _isAdmin;
+	std::map<std::string, std::string> _queryString;
+	std::map<std::string, std::string> _cookies;
 public:
-	std::string getAbsolutePath() const {
+	std::string get_absolute_path() const {
 		return _absolutePath;
 	}
-	void setAbsolutePath(std::string _absolutePath) {
-		this->_absolutePath = _absolutePath;
+	bool get_admin_error() {
+		return _adminError;
 	}
+	std::string get_content_type() {
+		return _contentType;
+	}
+	std::map<std::string, std::string> get_headers() {
+		return _headers;
+	}
+	std::string get_http_method() {
+		return _httpMethod;
+	}
+	std::string get_http_version() {
+		return _httpVersion;
+	}
+	std::string get_url() {
+		return _url;
+	}
+	void set_absolute_path(std::string absolutePath) {
+		_absolutePath = absolutePath;
+	}
+	void set_content_type(std::string contentType) {
+		_contentType = contentType;
+	}
+	void set_headers(std::map<std::string, std::string> headers) {
+		_headers = headers;
+	}
+	void set_http_method(std::string httpMethod) {
+		_httpMethod = httpMethod;
+	}
+	void set_http_version(std::string httpVersion) {
+		_httpVersion = httpVersion;
+	}
+	void set_url(std::string url) {
+		_url = url;
+	}
+
 	/*
-	 bool getAdminError() const;
-	 std::string getContentType() const;
 	 std::map<std::string, std::string> getCookies() const;
-	 std::map<std::string, std::string> getHeaders() const;
-	 std::string getHttpMethod() const;
-	 std::string getHttpVersion() const;
+
+	 void setAdminError(bool _adminError);
 	 bool getIsAdmin() const;
 	 std::map<std::string, std::string> getQueryString() const;
-	 std::string getUrl() const;
-	 void setAdminError(bool _adminError);
-	 void setContentType(std::string _contentType);
 	 void setCookies(std::map<std::string, std::string> _cookies);
-	 void setHeaders(std::map<std::string, std::string> _headers);
-	 void setHttpMethod(std::string _httpMethod);
-	 void setHttpVersion(std::string _httpVersion);
 	 void setIsAdmin(bool _isAdmin);
 	 void setQueryString(std::map<std::string, std::string> _queryString);
-	 void setUrl(std::string _url);
 	 */
 };
 
-/*
- bool Request::getAdminError() const {
- return _adminError;
- }
-
- std::string Request::getContentType() const {
- return _contentType;
- }
-
- std::map<std::string, std::string> Request::getCookies() const {
- return _cookies;
- }
-
- std::map<std::string, std::string> Request::getHeaders() const {
- return _headers;
- }
-
- std::string Request::getHttpMethod() const {
- return _httpMethod;
- }
-
- std::string Request::getHttpVersion() const {
- return _httpVersion;
- }
-
- bool Request::getIsAdmin() const {
- return _isAdmin;
- }
-
- std::map<std::string, std::string> Request::getQueryString() const {
- return _queryString;
- }
-
- std::string Request::getUrl() const {
- return _url;
- }
-
-
- void Request::setAdminError(bool _adminError = false) {
- this->_adminError = _adminError;
- }
-
- void Request::setContentType(std::string _contentType) {
- this->_contentType = _contentType;
- }
-
- void Request::setCookies(std::map<std::string, std::string> _cookies) {
- this->_cookies = _cookies;
- }
-
- void Request::setHeaders(std::map<std::string, std::string> _headers) {
- this->_headers = _headers;
- }
-
- void Request::setHttpMethod(std::string _httpMethod) {
- this->_httpMethod = _httpMethod;
- }
-
- void Request::setHttpVersion(std::string _httpVersion) {
- this->_httpVersion = _httpVersion;
- }
-
- void Request::setIsAdmin(bool _isAdmin = false) {
- this->_isAdmin = _isAdmin;
- }
-
- void Request::setQueryString(std::map<std::string, std::string> _queryString) {
- this->_queryString = _queryString;
- }
-
- void Request::setUrl(std::string _url) {
- this->_url = _url;
- }
- */
 #endif

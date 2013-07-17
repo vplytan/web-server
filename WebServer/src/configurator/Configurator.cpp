@@ -15,15 +15,15 @@
 using namespace std;
 
 Configurator* Configurator::_instance = NULL;
-Configurator* Configurator::getInstance() {
+Configurator* Configurator::get_instance() {
 	if (!_instance) {
 		_instance = new Configurator();
 	}
 	return _instance;
 }
 
-void Configurator::addNewInsertion(const string &newInsertion) {
-	std::string currentInsertions = getParameter("insertions");
+void Configurator::add_new_insertion(const string &newInsertion) {
+	std::string currentInsertions = get_parameter("insertions");
 	std::size_t found = currentInsertions.find(newInsertion);
 	if (found != std::string::npos) {
 		std::cout << "we already have this insertion" << endl;
@@ -31,15 +31,15 @@ void Configurator::addNewInsertion(const string &newInsertion) {
 	}
 	currentInsertions.append(" ");
 	currentInsertions.append(newInsertion);
-	changeParameter("insertions", currentInsertions);
+	change_parameter("insertions", currentInsertions);
 }
 
-void Configurator::addParameter(const string &paramName,
+void Configurator::add_parameter(const string &paramName,
 		const string &paramValue) {
 	_configuration.insert(make_pair(paramName, paramValue));
 }
 
-void Configurator::changeParameter(const string &paramName,
+void Configurator::change_parameter(const string &paramName,
 		const string &paramValue) {
 	std::map<std::string, std::string>::iterator it = _configuration.find(
 			paramName);
@@ -49,19 +49,19 @@ void Configurator::changeParameter(const string &paramName,
 	if (paramName == "port") {
 		int port;
 		istringstream(paramValue) >> port;
-		_observer->portChanged(port);
+		_observer->port_changed(port);
 	}
 }
 
-map<std::string, std::string> Configurator::getAllParameters() {
+map<std::string, std::string> Configurator::get_all_parameters() {
 	return _configuration;
 }
 
-std::string Configurator::getInsertions() {
-	return getParameter("insertions");
+std::string Configurator::get_insertions() {
+	return get_parameter("insertions");
 }
 
-std::string Configurator::getParameter(const string &parameterName) {
+std::string Configurator::get_parameter(const string &parameterName) {
 	map<std::string, std::string>::const_iterator pos = _configuration.find(
 			parameterName);
 	if (pos != _configuration.end()) {
@@ -70,27 +70,27 @@ std::string Configurator::getParameter(const string &parameterName) {
 	return "no such parameter";
 }
 
-int Configurator::getPort() {
-	string str_port = getParameter("port");
+int Configurator::get_port() {
+	string str_port = get_parameter("port");
 	int port;
 	istringstream(str_port) >> port;
 	return port;
 }
 
 Configurator::Configurator() {
-	_configuration = getConfigurationFromFile();
+	_configuration = get_configuration_from_file();
 }
 
 Configurator::~Configurator() {
-	saveConfigurationToFile(_configuration);
+	save_configuration_to_file(_configuration);
 }
 
-std::map<std::string, std::string> Configurator::getConfigurationFromFile() {
+std::map<std::string, std::string> Configurator::get_configuration_from_file() {
 
 	map<std::string, std::string> configuration;
 	std::string delimiter = "\t";
 	string line;
-	ifstream configFile(getConfigFilePath().c_str());
+	ifstream configFile(get_config_file_path().c_str());
 	if (configFile.is_open()) {
 		while (configFile.good()) {
 			getline(configFile, line);
@@ -110,10 +110,10 @@ std::map<std::string, std::string> Configurator::getConfigurationFromFile() {
 	}
 	return configuration;
 }
-void Configurator::saveConfigurationToFile(
+void Configurator::save_configuration_to_file(
 		std::map<std::string, std::string> configuration) {
 	ofstream configFile;
-	configFile.open(getConfigFilePath().c_str());
+	configFile.open(get_config_file_path().c_str());
 	typedef std::map<std::string, std::string>::iterator it_type;
 	for (it_type iterator = configuration.begin(); iterator
 			!= configuration.end(); iterator++) {
@@ -122,10 +122,10 @@ void Configurator::saveConfigurationToFile(
 	configFile.close();
 }
 
-std::string Configurator::getConfigFilePath() {
+std::string Configurator::get_config_file_path() {
 	return "../WebServer/config.xml";
 }
 
-void Configurator::setListener(IOnConfigurationChangeListener *listener) {
+void Configurator::set_listener(IOnConfigurationChangeListener *listener) {
 	_observer = listener;
 }

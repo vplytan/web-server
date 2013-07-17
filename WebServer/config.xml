@@ -2,5 +2,5 @@ admin_password	password
 admin_user	Admin
 insertions	png giff jpg
 ip	127.0.0.1
-port	9888
+port	9999
 root	../WebServer/res/

@@ -11,6 +11,7 @@
 #include <iostream>
 
 #include "../builders/Request.hpp"
+#include "../builders/Response.hpp"
 
 using namespace std;
 
@@ -20,7 +21,7 @@ public:
 	Handler() {
 		next = 0;
 	}
-	void setNext(Handler *n) {
+	void set_next(Handler *n) {
 		next = n;
 	}
 	void add(Handler *n) {
@@ -30,13 +31,15 @@ public:
 			next = n;
 	}
 	// 2. The "chain" method in the base class always delegates to the next obj
-	virtual char* doHandle(const Request &aRequest) {
-		return next->doHandle(aRequest);
+	virtual Response* do_handle(Request* aRequest) {
+		return next->do_handle(aRequest);
 	}
 
-	std::string getFileFormat(const std::string &path);
-	std::string getRoot();
-	std::string getPage(const std::string &root);
+	std::string get_file_format(const std::string &path);
+	std::string get_root();
+	std::string get_page(const std::string &root);
+	std::string build_status_line(std::string code);
+	std::string build_content_type(const std::string &contentType, long pageLength);
 };
 
 #endif

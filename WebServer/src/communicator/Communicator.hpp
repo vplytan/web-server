@@ -9,10 +9,10 @@
 
 class Communicator: public IOnConfigurationChangeListener {
 public:
-	void startListening();
-	void stopListening();
-	static Communicator* getInstance();
-	virtual void portChanged(int newPort);
+	void start_listening();
+	void stop_listening();
+	static Communicator* get_instance();
+	virtual void port_changed(int newPort);
 
 private:
 	static Communicator* _instance;
@@ -20,5 +20,5 @@ private:
 	int _port;
 	Communicator();
 	void reboot();
-	void setPort(int portNumber);
+	void set_port(int portNumber);
 };
